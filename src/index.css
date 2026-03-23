@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Silkscreen", system-ui, sans-serif;
+  --font-mono: "Press Start 2P", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-[#000] text-[#0ff] overflow-hidden;
+    background-image: radial-gradient(circle at 50% 50%, #1a001a 0%, #000 100%);
+  }
+}
+
+/* CRT Scanline Effect */
+.scanlines::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 100;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Static Noise Effect */
+.noise::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  z-index: 101;
+  pointer-events: none;
+  animation: noise 0.2s infinite;
+}
+
+@keyframes noise {
+  0% { transform: translate(0,0) }
+  10% { transform: translate(-5%,-5%) }
+  20% { transform: translate(-10%,5%) }
+  30% { transform: translate(5%,-10%) }
+  40% { transform: translate(-5%,15%) }
+  50% { transform: translate(-10%,5%) }
+  60% { transform: translate(15%,0) }
+  70% { transform: translate(0,10%) }
+  80% { transform: translate(-15%,0) }
+  90% { transform: translate(10%,5%) }
+  100% { transform: translate(5%,0) }
+}
+
+/* Screen Tearing Animation */
+@keyframes tear {
+  0% { transform: translateX(0) skew(0deg); opacity: 1; }
+  2% { transform: translateX(-2px) skew(5deg); opacity: 0.8; }
+  4% { transform: translateX(2px) skew(-5deg); opacity: 1; }
+  6% { transform: translateX(0) skew(0deg); opacity: 1; }
+  100% { transform: translateX(0) skew(0deg); opacity: 1; }
+}
+
+.tear {
+  animation: tear 3s infinite;
+}
+
+/* Jarring Glitch Text */
+@keyframes glitch-text {
+  0% { transform: translate(0); color: #0ff; }
+  20% { transform: translate(-2px, 2px); color: #f0f; }
+  40% { transform: translate(-2px, -2px); color: #0ff; }
+  60% { transform: translate(2px, 2px); color: #f0f; }
+  80% { transform: translate(2px, -2px); color: #0ff; }
+  100% { transform: translate(0); color: #f0f; }
+}
+
+.glitch-magenta {
+  animation: glitch-text 0.3s infinite;
+  text-shadow: 2px 0 #f0f, -2px 0 #0ff;
+}
+
+.border-magenta {
+  border-color: #f0f;
+  box-shadow: 0 0 10px #f0f;
+}
+
+.border-cyan {
+  border-color: #0ff;
+  box-shadow: 0 0 10px #0ff;
+}
